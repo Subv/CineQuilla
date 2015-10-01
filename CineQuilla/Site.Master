@@ -1,0 +1,37 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CineQuilla.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+        <div>
+            <asp:LoginView ID="LoginView1" runat="server">
+                <AnonymousTemplate>
+
+                </AnonymousTemplate>
+                <LoggedInTemplate>
+                    Bienvenido <%=UserInfo.FirstName %>
+                    <br />
+                    <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Logout" CausesValidation="false" />
+                    <div id="MenuDiv" runat="server">
+                        <asp:Button runat="server" ID="ManageUsersButton" CausesValidation="false" Text="Administrar usuarios" OnClick="ManageUsersButton_Click" />
+                    </div>
+                    <br />
+                </LoggedInTemplate>
+            </asp:LoginView>
+            <br />
+            <asp:Label ForeColor="Red" Visible="false" ID="ErrorText" runat="server" Text=""></asp:Label>
+            <br />
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>
