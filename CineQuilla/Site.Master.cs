@@ -32,21 +32,16 @@ namespace CineQuilla
                 Session["ShowPermissionError"] = null;
             }
 
-            // Only administrators can add users
-            if (UserInfo.PermissionLevel <= 1)
+            // Only administrators can view the admin panel
+            if (UserInfo.PermissionLevel >= 2)
             {
-                (LoginView1.FindControl("AddUserButton") as Button).Visible = false;
+                LoginView1.FindControl("AdminPanel").Visible = true;
             }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
             Auth.Helpers.Logout(Page);
-        }
-
-        protected void ManageUsersButton_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("~/ManageUsers.aspx", true);
         }
     }
 }

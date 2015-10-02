@@ -20,7 +20,10 @@
                     <br />
                     <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Logout" CausesValidation="false" />
                     <div id="MenuDiv" runat="server">
-                        <asp:Button runat="server" ID="ManageUsersButton" CausesValidation="false" Text="Administrar usuarios" OnClick="ManageUsersButton_Click" />
+                        <div id="AdminPanel" runat="server" visible="false">
+                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/ManageUsers.aspx">Administrar usuarios</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/ManageMovies.aspx">Administrar peliculas</asp:HyperLink>
+                        </div>
                     </div>
                     <br />
                 </LoggedInTemplate>
