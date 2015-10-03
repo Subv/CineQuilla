@@ -30,9 +30,13 @@
     <asp:Button ID="Button3" runat="server" Text="Add new showroom" OnClick="Button3_Click" />
     <div id="AddNewShowroomDiv" runat="server" visible="false">
         Nueva sala: <br />
-        <asp:Label ID="Label1" runat="server" Text="Capacity: "></asp:Label>
-        <asp:TextBox ID="CapacityBox" runat="server" TextMode="Number"></asp:TextBox>
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator" ControlToValidate="CapacityBox" runat="server" ErrorMessage="Please enter a capacity."></asp:RequiredFieldValidator>
+        <asp:Label ID="Label1" runat="server" Text="Chair rows: "></asp:Label>
+        <asp:TextBox ID="ChairRowsBox" runat="server" TextMode="Number"></asp:TextBox>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator" ControlToValidate="ChairRowsBox" runat="server" ErrorMessage="Please enter the number of chair rows."></asp:RequiredFieldValidator>
+        <br />
+        <asp:Label ID="Label4" runat="server" Text="Chair columns: "></asp:Label>
+        <asp:TextBox ID="ChairColumnsBox" runat="server" TextMode="Number"></asp:TextBox>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="ChairColumnsBox" runat="server" ErrorMessage="Please enter the number of chair columns."></asp:RequiredFieldValidator>
         <br />
         <asp:Label ID="Label2" runat="server" Text="3D: "></asp:Label>
         <asp:CheckBox ID="Capable3DBox" runat="server" />

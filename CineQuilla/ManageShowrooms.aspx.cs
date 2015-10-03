@@ -48,7 +48,7 @@ namespace CineQuilla
                         connection.Open();
                         using (SqlCommand command = new SqlCommand(null, connection))
                         {
-                            command.CommandText = "SELECT id, capacity, capable_3d, active FROM showroom";
+                            command.CommandText = "SELECT id, rows * columns as capacity, capable_3d, active FROM showroom";
                             SqlDataAdapter adapter = new SqlDataAdapter(command);
                             DataSet dataset = new DataSet();
                             int rows = adapter.Fill(dataset);
@@ -90,16 +90,19 @@ namespace CineQuilla
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(null, connection))
                     {
-                        command.CommandText = "INSERT INTO showroom (capacity, capable_3d, active) VALUES (@cap, @ac_3d, @active)";
-                        SqlParameter capacityParam = new SqlParameter("@cap", SqlDbType.Int);
+                        command.CommandText = "INSERT INTO showroom (rows, columns, capable_3d, active) VALUES (@rows, @columns, @ac_3d, @active)";
+                        SqlParameter rowsParam = new SqlParameter("@rows", SqlDbType.Int);
+                        SqlParameter colsParam = new SqlParameter("@columns", SqlDbType.Int);
                         SqlParameter cap3dParam = new SqlParameter("@ac_3d", SqlDbType.Int);
                         SqlParameter activeParam = new SqlParameter("@active", SqlDbType.Int);
 
-                        capacityParam.Value = CapacityBox.Text;
+                        rowsParam.Value = ChairRowsBox.Text;
+                        colsParam.Value = ChairColumnsBox.Text;
                         cap3dParam.Value = Capable3DBox.Checked ? 1 : 0;
                         activeParam.Value = ActiveBox.Checked ? 1 : 0;
 
-                        command.Parameters.Add(capacityParam);
+                        command.Parameters.Add(rowsParam);
+                        command.Parameters.Add(colsParam);
                         command.Parameters.Add(cap3dParam);
                         command.Parameters.Add(activeParam);
 

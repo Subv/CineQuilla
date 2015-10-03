@@ -53,7 +53,7 @@ namespace CineQuilla
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(null, connection))
                     {
-                        command.CommandText = @"SELECT sr.capacity - ISNULL(ch.num_chairs, 0) as available_chairs, ISNULL(ch.num_chairs, 0) as num_chairs, s.id, s.start_time, s.end_time, s.showroom_id, s.price, m.name as movie_name, m.image
+                        command.CommandText = @"SELECT (sr.rows * sr.columns) - ISNULL(ch.num_chairs, 0) as available_chairs, ISNULL(ch.num_chairs, 0) as num_chairs, s.id, s.start_time, s.end_time, s.showroom_id, s.price, m.name as movie_name, m.image
                                                 FROM shows s INNER JOIN movies m ON s.movie_id = m.id LEFT JOIN (SELECT show_id, COUNT(*) as num_chairs FROM chairs WHERE date = @time GROUP BY chairs.show_id) ch ON ch.show_id = s.id LEFT JOIN showroom sr ON sr.id = s.showroom_id WHERE s.start_date <= @time AND s.end_date >= @time";
                         SqlParameter timeParam = new SqlParameter("@time", SqlDbType.Date);
                         timeParam.Value = ShowDate.SelectedDate;
@@ -190,7 +190,7 @@ namespace CineQuilla
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(null, connection))
                     {
-                        command.CommandText = @"SELECT sr.id, sr.capacity FROM showroom sr WHERE sr.active = 1 AND sr.id NOT IN (SELECT s.showroom_id FROM shows s WHERE (s.start_date <= @end_date AND s.end_date >= @start_date) AND (s.start_time < @end_time AND s.end_time > @start_time))";
+                        command.CommandText = @"SELECT sr.id, sr.rows * sr.columns as capacity FROM showroom sr WHERE sr.active = 1 AND sr.id NOT IN (SELECT s.showroom_id FROM shows s WHERE (s.start_date <= @end_date AND s.end_date >= @start_date) AND (s.start_time < @end_time AND s.end_time > @start_time))";
                         SqlParameter startDateParam = new SqlParameter("@start_date", SqlDbType.Date);
                         SqlParameter endDateParam = new SqlParameter("@end_date", SqlDbType.Date);
                         SqlParameter startTimeParam = new SqlParameter("@start_time", SqlDbType.Time);

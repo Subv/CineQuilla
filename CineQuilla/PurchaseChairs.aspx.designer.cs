@@ -10,7 +10,7 @@
 namespace CineQuilla {
     
     
-    public partial class Default {
+    public partial class PurchaseChairs {
         
         /// <summary>
         /// ErrorLabel control.
@@ -31,21 +31,21 @@ namespace CineQuilla {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// NoShows control.
+        /// ChairsTable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label NoShows;
+        protected global::System.Web.UI.WebControls.Table ChairsTable;
         
         /// <summary>
-        /// ShowingGridView control.
+        /// Button1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView ShowingGridView;
+        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }
