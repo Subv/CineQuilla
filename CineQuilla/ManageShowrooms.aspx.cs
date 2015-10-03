@@ -1,5 +1,4 @@
-﻿using CineQuilla.Auth;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -11,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace CineQuilla
 {
-    public partial class ManageMovies : System.Web.UI.Page
+    public partial class ManageShowrooms : System.Web.UI.Page
     {
         public Auth.UserInfo UserInfo = null;
 
@@ -32,10 +31,10 @@ namespace CineQuilla
                 return;
             }
 
-            if (Session["ShowMovieAddedMessage"] != null && (bool)Session["ShowMovieAddedMessage"] == true)
+            if (Session["ShowShowroomAddedMessage"] != null && (bool)Session["ShowShowroomAddedMessage"] == true)
             {
-                MovieAddedMessage.Visible = true;
-                Session["ShowMovieAddedMessage"] = null;
+                ShowroomAddedMessage.Visible = true;
+                Session["ShowShowroomAddedMessage"] = null;
             }
 
             if (!Page.IsPostBack)
@@ -49,19 +48,19 @@ namespace CineQuilla
                         connection.Open();
                         using (SqlCommand command = new SqlCommand(null, connection))
                         {
-                            command.CommandText = "SELECT id, name, description, year, director, length, image FROM movies";
+                            command.CommandText = "SELECT id, capacity, capable_3d, active FROM showroom";
                             SqlDataAdapter adapter = new SqlDataAdapter(command);
                             DataSet dataset = new DataSet();
                             int rows = adapter.Fill(dataset);
                             if (rows == 0)
                             {
-                                MoviesTable.Visible = false;
-                                NoMovies.Visible = true;
+                                ShowroomsTable.Visible = false;
+                                NoShowrooms.Visible = true;
                             }
                             else
                             {
-                                MoviesTable.DataSource = dataset;
-                                MoviesTable.DataBind();
+                                ShowroomsTable.DataSource = dataset;
+                                ShowroomsTable.DataBind();
                             }
                         }
                     }
@@ -73,9 +72,14 @@ namespace CineQuilla
             }
         }
 
-        protected void MoviesTable_OnRowCommand(object sender, GridViewCommandEventArgs e)
+        protected void Button3_Click(object sender, EventArgs e)
         {
-            if (e.CommandName != "DeleteMovie")
+            AddNewShowroomDiv.Visible = true;
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            if (!Page.IsValid)
                 return;
 
             try
@@ -86,7 +90,48 @@ namespace CineQuilla
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(null, connection))
                     {
-                        command.CommandText = "DELETE FROM movies WHERE id = @id";
+                        command.CommandText = "INSERT INTO showroom (capacity, capable_3d, active) VALUES (@cap, @ac_3d, @active)";
+                        SqlParameter capacityParam = new SqlParameter("@cap", SqlDbType.Int);
+                        SqlParameter cap3dParam = new SqlParameter("@ac_3d", SqlDbType.Int);
+                        SqlParameter activeParam = new SqlParameter("@active", SqlDbType.Int);
+
+                        capacityParam.Value = CapacityBox.Text;
+                        cap3dParam.Value = Capable3DBox.Checked ? 1 : 0;
+                        activeParam.Value = ActiveBox.Checked ? 1 : 0;
+
+                        command.Parameters.Add(capacityParam);
+                        command.Parameters.Add(cap3dParam);
+                        command.Parameters.Add(activeParam);
+
+                        command.Prepare();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                ErrorLabel.Visible = true;
+                return;
+            }
+
+            Session["ShowShowroomAddedMessage"] = true;
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void ShowroomsTable_OnRowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName != "DeleteShowroom")
+                return;
+
+            try
+            {
+                var connString = ConfigurationManager.ConnectionStrings["CineQuilla"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(null, connection))
+                    {
+                        command.CommandText = "DELETE FROM showroom WHERE id = @id";
                         SqlParameter idParam = new SqlParameter("@id", SqlDbType.Int);
                         idParam.Value = e.CommandArgument;
                         command.Parameters.Add(idParam);
@@ -101,64 +146,6 @@ namespace CineQuilla
                 return;
             }
 
-            Response.Redirect(Request.RawUrl);
-        }
-
-        protected void Button3_Click(object sender, EventArgs e)
-        {
-            AddNewMovieDiv.Visible = true;
-        }
-
-        protected void Button2_Click(object sender, EventArgs e)
-        {
-            if (!Page.IsValid)
-                return;
-
-            try
-            {
-                string imgPath = "Uploads" + "/" + ImageUpload.FileName;
-                ImageUpload.SaveAs(Server.MapPath("Uploads") + "/" + ImageUpload.FileName);
-
-                var connString = ConfigurationManager.ConnectionStrings["CineQuilla"].ConnectionString;
-                using (SqlConnection connection = new SqlConnection(connString))
-                {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand(null, connection))
-                    {
-                        command.CommandText = "INSERT INTO movies (name, description, year, director, length, image) VALUES (@name, @descr, @year, @direc, @len, @img)";
-                        SqlParameter nameParam = new SqlParameter("@name", SqlDbType.VarChar, 255);
-                        SqlParameter descrParam = new SqlParameter("@descr", SqlDbType.Text, DescriptionBox.Text.Length);
-                        SqlParameter yearParam = new SqlParameter("@year", SqlDbType.Int);
-                        SqlParameter direcParam = new SqlParameter("@direc", SqlDbType.VarChar, 255);
-                        SqlParameter lenParam = new SqlParameter("@len", SqlDbType.Int);
-                        SqlParameter imgParam = new SqlParameter("@img", SqlDbType.Text, imgPath.Length);
-
-                        nameParam.Value = NameBox.Text;
-                        descrParam.Value = DescriptionBox.Text;
-                        yearParam.Value = YearBox.Text;
-                        direcParam.Value = DirectorBox.Text;
-                        lenParam.Value = LengthBox.Text;
-                        imgParam.Value = imgPath;
-
-                        command.Parameters.Add(nameParam);
-                        command.Parameters.Add(descrParam);
-                        command.Parameters.Add(yearParam);
-                        command.Parameters.Add(direcParam);
-                        command.Parameters.Add(lenParam);
-                        command.Parameters.Add(imgParam);
-
-                        command.Prepare();
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                ErrorLabel.Visible = true;
-                return;
-            }
-
-            Session["ShowMovieAddedMessage"] = true;
             Response.Redirect(Request.RawUrl);
         }
     }

@@ -4,6 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     Movies: <br />
     <asp:Label Visible="false" ForeColor="Red" runat="server" ID="ErrorLabel" Text="Something went wrong"></asp:Label>
+    <asp:Label Visible="false" ForeColor="Red" runat="server" ID="NoMovies" Text="No hay peliculas"></asp:Label>
     <br />
     <asp:Label Visible="false" ForeColor="Green" runat="server" ID="MovieAddedMessage" Text="Pelicula añadida correctamente"></asp:Label>
     <asp:GridView ID="MoviesTable" runat="server" DataKeyNames="id" OnRowCommand="MoviesTable_OnRowCommand" AutoGenerateColumns="False">

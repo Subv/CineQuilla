@@ -71,6 +71,8 @@
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="ManageMovies.aspx" />
+    <Content Include="ManageShowrooms.aspx" />
+    <Content Include="ManageShows.aspx" />
     <Content Include="ManageUsers.aspx" />
     <Content Include="packages.config" />
     <Content Include="Site.Master" />
@@ -119,6 +121,20 @@
     </Compile>
     <Compile Include="ManageMovies.aspx.designer.cs">
       <DependentUpon>ManageMovies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageShowrooms.aspx.cs">
+      <DependentUpon>ManageShowrooms.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageShowrooms.aspx.designer.cs">
+      <DependentUpon>ManageShowrooms.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageShows.aspx.cs">
+      <DependentUpon>ManageShows.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageShows.aspx.designer.cs">
+      <DependentUpon>ManageShows.aspx</DependentUpon>
     </Compile>
     <Compile Include="ManageUsers.aspx.cs">
       <DependentUpon>ManageUsers.aspx</DependentUpon>

@@ -55,8 +55,7 @@ namespace CineQuilla
                             if (rows == 0)
                             {
                                 UsersTable.Visible = false;
-                                ErrorLabel.Text = "No hay usuarios";
-                                ErrorLabel.Visible = true;
+                                NoUsers.Visible = true;
                             }
                             else
                             {

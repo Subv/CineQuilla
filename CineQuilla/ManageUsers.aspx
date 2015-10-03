@@ -4,6 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     Usuarios: <br />
     <asp:Label Visible="false" ForeColor="Red" runat="server" ID="ErrorLabel" Text="Something went wrong"></asp:Label>
+    <asp:Label Visible="false" ForeColor="Red" runat="server" ID="NoUsers" Text="No hay usuarios"></asp:Label>
     <br />
     <asp:Label Visible="false" ForeColor="Green" runat="server" ID="UserAddedMessage" Text="Usuario añadido correctamente"></asp:Label>
     <asp:GridView ID="UsersTable" runat="server" DataKeyNames="id" OnRowCommand="UsersTable_OnRowCommand" AutoGenerateColumns="False">
@@ -12,7 +13,9 @@
             <asp:BoundField DataField="username" HeaderText="Username" />
             <asp:BoundField DataField="first_name" HeaderText="Nombre" />
             <asp:BoundField DataField="last_name" HeaderText="Apellido" />
-            <asp:BoundField DataField="permission_level" HeaderText="Nivel" />
+            <asp:TemplateField HeaderText="Rol">
+                <ItemTemplate><%# ((int)Eval("permission_level") > 1) ? "Administrador" : "Cajero" %></ItemTemplate>
+            </asp:TemplateField>
             <asp:TemplateField ShowHeader="False">
                 <ItemTemplate>
                     <asp:Button ID="Button1" runat="server" CausesValidation="false" CommandName="DeleteUser"

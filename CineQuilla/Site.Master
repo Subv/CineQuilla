@@ -23,6 +23,8 @@
                         <div id="AdminPanel" runat="server" visible="false">
                             <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/ManageUsers.aspx">Administrar usuarios</asp:HyperLink>
                             <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/ManageMovies.aspx">Administrar peliculas</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/ManageShowrooms.aspx">Administrar salas</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/ManageShows.aspx">Administrar funciones</asp:HyperLink>
                         </div>
                     </div>
                     <br />
