@@ -32,10 +32,10 @@ namespace CineQuilla
                 return;
             }
 
-            if (Session["ShowUserAddedMessage"] != null && (bool)Session["ShowUserAddedMessage"] == true)
+            if (Session["ShowMovieAddedMessage"] != null && (bool)Session["ShowMovieAddedMessage"] == true)
             {
                 MovieAddedMessage.Visible = true;
-                Session["ShowUserAddedMessage"] = null;
+                Session["ShowMovieAddedMessage"] = null;
             }
 
             if (!Page.IsPostBack)
@@ -69,7 +69,7 @@ namespace CineQuilla
                 }
                 catch (SqlException ex)
                 {
-                    throw;
+                    ErrorLabel.Visible = true;
                 }
             }
         }
@@ -98,7 +98,8 @@ namespace CineQuilla
             }
             catch (SqlException ex)
             {
-                throw;
+                ErrorLabel.Visible = true;
+                return;
             }
 
             Response.Redirect(Request.RawUrl);
@@ -106,7 +107,60 @@ namespace CineQuilla
 
         protected void Button3_Click(object sender, EventArgs e)
         {
+            AddNewMovieDiv.Visible = true;
+        }
 
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            if (!Page.IsValid)
+                return;
+
+            try
+            {
+                string imgPath = "Uploads" + "/" + ImageUpload.FileName;
+                ImageUpload.SaveAs(Server.MapPath("Uploads") + "/" + ImageUpload.FileName);
+
+                var connString = ConfigurationManager.ConnectionStrings["CineQuilla"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(null, connection))
+                    {
+                        command.CommandText = "INSERT INTO movies (name, description, year, director, length, image) VALUES (@name, @descr, @year, @direc, @len, @img)";
+                        SqlParameter nameParam = new SqlParameter("@name", SqlDbType.VarChar, 255);
+                        SqlParameter descrParam = new SqlParameter("@descr", SqlDbType.Text, DescriptionBox.Text.Length);
+                        SqlParameter yearParam = new SqlParameter("@year", SqlDbType.Int);
+                        SqlParameter direcParam = new SqlParameter("@direc", SqlDbType.VarChar, 255);
+                        SqlParameter lenParam = new SqlParameter("@len", SqlDbType.Int);
+                        SqlParameter imgParam = new SqlParameter("@img", SqlDbType.Text, imgPath.Length);
+
+                        nameParam.Value = NameBox.Text;
+                        descrParam.Value = DescriptionBox.Text;
+                        yearParam.Value = YearBox.Text;
+                        direcParam.Value = DirectorBox.Text;
+                        lenParam.Value = LengthBox.Text;
+                        imgParam.Value = imgPath;
+
+                        command.Parameters.Add(nameParam);
+                        command.Parameters.Add(descrParam);
+                        command.Parameters.Add(yearParam);
+                        command.Parameters.Add(direcParam);
+                        command.Parameters.Add(lenParam);
+                        command.Parameters.Add(imgParam);
+
+                        command.Prepare();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                ErrorLabel.Visible = true;
+                return;
+            }
+
+            Session["ShowMovieAddedMessage"] = true;
+            Response.Redirect(Request.RawUrl);
         }
     }
 }

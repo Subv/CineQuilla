@@ -68,7 +68,8 @@ namespace CineQuilla
                 }
                 catch (SqlException ex)
                 {
-                    throw;
+                    ErrorLabel.Visible = true;
+                    return;
                 }
             }
         }
@@ -97,7 +98,8 @@ namespace CineQuilla
             }
             catch (SqlException ex)
             {
-                throw;
+                ErrorLabel.Visible = true;
+                return;
             }
 
             Response.Redirect(Request.RawUrl);
@@ -142,7 +144,8 @@ namespace CineQuilla
             }
             catch (SqlException ex)
             {
-                throw;
+                ErrorLabel.Visible = true;
+                return;
             }
 
             Session["ShowUserAddedMessage"] = true;
@@ -174,7 +177,8 @@ namespace CineQuilla
             catch (SqlException ex)
             {
                 args.IsValid = false;
-                throw;
+                ErrorLabel.Visible = true;
+                return;
             }
         }
 
