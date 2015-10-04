@@ -23,7 +23,7 @@
                 <asp:TemplateField>
                     <ItemTemplate>
                         <asp:Button ID="Button1" runat="server" CausesValidation="false" CommandName="Purchase"
-                            Text="Comprar" CommandArgument='<%# Eval("id") %>' Enabled='<%# (int)Eval("available_chairs") > 0 && DateTime.Parse(Eval("end_time").ToString()).TimeOfDay > DateTime.Now.TimeOfDay %>'/>
+                            Text="Comprar" CommandArgument='<%# Eval("id") %>' Enabled='<%# (int)Eval("available_chairs") > 0 && (Calendar1.SelectedDate > DateTime.Now || DateTime.Parse(Eval("end_time").ToString()).TimeOfDay > DateTime.Now.TimeOfDay) %>'/>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

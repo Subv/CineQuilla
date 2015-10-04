@@ -26,6 +26,13 @@ namespace CineQuilla
 
         protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
         {
+            if (e.Day.Date.Add(DateTime.Now.TimeOfDay) < DateTime.Now)
+            {
+                e.Day.IsSelectable = false;
+                e.Cell.ForeColor = Color.Gray;
+                return;
+            }
+
             try
             {
                 var connString = ConfigurationManager.ConnectionStrings["CineQuilla"].ConnectionString;
@@ -72,7 +79,7 @@ namespace CineQuilla
                     connection.Open();
                     using (SqlCommand command = new SqlCommand(null, connection))
                     {
-                        command.CommandText = @"SELECT (sr.rows * sr.columns) - ISNULL(ch.num_chairs, 0) as available_chairs, sr.rows * sr.columns as num_chairs, s.id, showroom_id, start_time, end_time, price FROM shows s LEFT JOIN (SELECT show_id, COUNT(*) as num_chairs FROM chairs WHERE date = @date GROUP BY chairs.show_id) ch ON ch.show_id = s.id LEFT JOIN showroom sr ON sr.id = s.showroom_id WHERE movie_id = @mov_id AND start_date <= @date AND end_date >= @date";
+                        command.CommandText = @"SELECT (sr.rows * sr.columns) - ISNULL(ch.num_chairs, 0) as available_chairs, sr.rows * sr.columns as num_chairs, s.id, showroom_id, start_date, end_date, start_time, end_time, price FROM shows s LEFT JOIN (SELECT show_id, COUNT(*) as num_chairs FROM chairs WHERE date = @date GROUP BY chairs.show_id) ch ON ch.show_id = s.id LEFT JOIN showroom sr ON sr.id = s.showroom_id WHERE movie_id = @mov_id AND start_date <= @date AND end_date >= @date";
                         SqlParameter dateParam = new SqlParameter("@date", SqlDbType.Date);
                         SqlParameter movieParam = new SqlParameter("@mov_id", SqlDbType.Int);
 

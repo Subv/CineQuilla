@@ -78,6 +78,7 @@
     <Content Include="ManageUsers.aspx" />
     <Content Include="packages.config" />
     <Content Include="PurchaseChairs.aspx" />
+    <Content Include="PurchaseCompleted.aspx" />
     <Content Include="Site.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -167,6 +168,13 @@
     </Compile>
     <Compile Include="PurchaseChairs.aspx.designer.cs">
       <DependentUpon>PurchaseChairs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PurchaseCompleted.aspx.cs">
+      <DependentUpon>PurchaseCompleted.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PurchaseCompleted.aspx.designer.cs">
+      <DependentUpon>PurchaseCompleted.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
