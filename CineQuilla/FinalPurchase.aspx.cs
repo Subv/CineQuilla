@@ -38,6 +38,7 @@ namespace CineQuilla
             }
 
             PriceToPayBox.Text = Session["PurchasePrice"].ToString();
+            RewardPointsLabel.Text = ((int)Session["PurchasePrice"] / 10).ToString();
         }
 
         protected void CustomValidator1_ServerValidate(object source, ServerValidateEventArgs args)
@@ -75,12 +76,45 @@ namespace CineQuilla
             if (!Page.IsValid)
                 return;
 
+            if ((PaymentMethod.SelectedValue == "2" && (CineQuillaCard.Text == null || CineQuillaCard.Text.Trim() == "")) ||
+                (PaymentMethod.SelectedValue == "1" && (DebitCardNumber.Text == null || DebitCardNumber.Text.Trim() == "")))
+            {
+                PressUpdateLabel.Visible = true;
+                return;
+            }
+
             try
             {
                 var connString = ConfigurationManager.ConnectionStrings["CineQuilla"].ConnectionString;
                 using (SqlConnection connection = new SqlConnection(connString))
                 {
                     connection.Open();
+
+                    // Pago con tarjeta CineQuilla
+                    if (PaymentMethod.SelectedValue == "2")
+                    {
+                        using (SqlCommand command = new SqlCommand(null, connection))
+                        {
+                            command.CommandText = @"SELECT points FROM cards WHERE id = @id AND owner = @owner";
+
+                            SqlParameter idParam = new SqlParameter("@id", SqlDbType.Int);
+                            SqlParameter ownerParam = new SqlParameter("@owner", SqlDbType.Int);
+
+                            idParam.Value = CineQuillaCard.Text;
+                            ownerParam.Value = ClientID.Text;
+
+                            command.Parameters.Add(idParam);
+                            command.Parameters.Add(ownerParam);
+
+                            var points = (int)command.ExecuteScalar();
+
+                            if (points <= (int)Session["PurchasePrice"])
+                            {
+                                NotEnoughFundsLabel.Visible = true;
+                                return;
+                            }
+                        }
+                    }
 
                     int transaction_id = -1;
                     using (SqlCommand command = new SqlCommand(null, connection))
@@ -155,13 +189,56 @@ namespace CineQuilla
                         }
                     }
 
+                    if (PaymentMethod.SelectedValue == "2")
+                    {
+                        using (SqlCommand command = new SqlCommand(null, connection))
+                        {
+                            command.CommandText = @"UPDATE cards SET points = points - @price WHERE id = @id AND owner = @owner";
+
+                            SqlParameter idParam = new SqlParameter("@id", SqlDbType.Int);
+                            SqlParameter ownerParam = new SqlParameter("@owner", SqlDbType.Int);
+                            SqlParameter priceParam = new SqlParameter("@price", SqlDbType.Int);
+
+                            idParam.Value = CineQuillaCard.Text;
+                            ownerParam.Value = ClientID.Text;
+                            priceParam.Value = Session["PurchasePrice"];
+
+                            command.Parameters.Add(idParam);
+                            command.Parameters.Add(ownerParam);
+                            command.Parameters.Add(priceParam);
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Sumar puntos a la tarjeta
+                    if (AccumulatePointsDiv.Visible)
+                    {
+                        using (SqlCommand command = new SqlCommand(null, connection))
+                        {
+                            command.CommandText = @"UPDATE cards SET points = points + @points WHERE id = @id AND owner = @owner";
+
+                            SqlParameter idParam = new SqlParameter("@id", SqlDbType.Int);
+                            SqlParameter ownerParam = new SqlParameter("@owner", SqlDbType.Int);
+                            SqlParameter pointsParam = new SqlParameter("@points", SqlDbType.Int);
+
+                            idParam.Value = TopUpCard.Text;
+                            ownerParam.Value = ClientID.Text;
+                            pointsParam.Value = (int)Session["PurchasePrice"] / 10;
+
+                            command.Parameters.Add(idParam);
+                            command.Parameters.Add(ownerParam);
+                            command.Parameters.Add(pointsParam);
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
                     Session["PurchaseDate"] = null;
                     Session["PurchaseMovieId"] = null;
                     Session["PurchaseShowId"] = null;
                     Session["PurchaseSelectedChairs"] = null;
                     Session["PurchasePrice"] = null;
-
-                    // TODO Update the points if bought with CineQuilla card
 
                     Response.Redirect("~/PurchaseCompleted.aspx", true);
                 }
@@ -222,6 +299,16 @@ namespace CineQuilla
                 PayWithPoints.Visible = true;
                 PayWithDebit.Visible = false;
             }
+        }
+
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            AccumulatePointsDiv.Visible = true;
+        }
+
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            AccumulatePointsDiv.Visible = false;
         }
     }
 }

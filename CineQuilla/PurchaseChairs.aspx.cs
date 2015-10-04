@@ -153,6 +153,11 @@ namespace CineQuilla
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            if (SelectedChairs.Count == 0)
+            {
+                NoSelectionLabel.Visible = true;
+                return;
+            }
             Session["PurchaseSelectedChairs"] = SelectedChairs;
             Session["PurchasePrice"] = SelectedChairs.Count * TicketPrice;
             Response.Redirect("~/FinalPurchase.aspx", true);

@@ -20,6 +20,8 @@
                     <br />
                     <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Logout" CausesValidation="false" />
                     <div id="MenuDiv" runat="server">
+                        <asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/Default.aspx">Venta de boletas</asp:HyperLink>
+                        <asp:HyperLink ID="HyperLink6" runat="server" NavigateUrl="~/SellCards.aspx">Venta de tarjetas CineQuilla</asp:HyperLink>
                         <div id="AdminPanel" runat="server" visible="false">
                             <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/ManageUsers.aspx">Administrar usuarios</asp:HyperLink>
                             <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/ManageMovies.aspx">Administrar peliculas</asp:HyperLink>
