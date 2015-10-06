@@ -80,6 +80,8 @@
     <Content Include="PurchaseChairs.aspx" />
     <Content Include="PurchaseCompleted.aspx" />
     <Content Include="RegisterClient.aspx" />
+    <Content Include="Resources\logo.jpg" />
+    <Content Include="Resources\Master.css" />
     <Content Include="SellCards.aspx" />
     <Content Include="Site.Master" />
     <None Include="Web.Debug.config">

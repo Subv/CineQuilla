@@ -8,7 +8,7 @@
     <asp:Label ID="Label1" runat="server" Text="Currently showing: "></asp:Label>
     <br />
     <asp:Label Visible="false" ForeColor="Red" runat="server" ID="NoShows" Text="No hay funciones disponibles"></asp:Label>
-    <asp:GridView ID="ShowingGridView" runat="server" AutoGenerateColumns="false">
+    <asp:GridView GridLines="None" ID="ShowingGridView" runat="server" AutoGenerateColumns="false">
         <Columns>
             <asp:TemplateField ShowHeader="true" HeaderText="Cover">
                 <ItemTemplate>

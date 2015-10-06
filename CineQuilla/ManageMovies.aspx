@@ -25,11 +25,6 @@
                         Text="Eliminar Pelicula" CommandArgument='<%# Eval("id") %>' />
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField ShowHeader="False">
-                <ItemTemplate>
-                    <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# "~/MovieDetails.aspx?id=" + Eval("id") %>'>Ver detalles</asp:HyperLink>
-                </ItemTemplate>
-            </asp:TemplateField>
         </Columns>
     </asp:GridView>
     <br />
