@@ -123,7 +123,7 @@ namespace CineQuilla
                                                 (@method, @date, @cashier, @client, @amount, @qty, @debit, @card)";
 
                         SqlParameter methodParam = new SqlParameter("@method", SqlDbType.Int);
-                        SqlParameter dateParam = new SqlParameter("@date", SqlDbType.Date);
+                        SqlParameter dateParam = new SqlParameter("@date", SqlDbType.DateTime);
                         SqlParameter cashierParam = new SqlParameter("@cashier", SqlDbType.Int);
                         SqlParameter clientParam = new SqlParameter("@client", SqlDbType.Int);
                         SqlParameter amountParam = new SqlParameter("@amount", SqlDbType.Int);

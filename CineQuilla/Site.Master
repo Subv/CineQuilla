@@ -27,6 +27,7 @@
                             <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/ManageMovies.aspx">Administrar peliculas</asp:HyperLink>
                             <asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/ManageShowrooms.aspx">Administrar salas</asp:HyperLink>
                             <asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/ManageShows.aspx">Administrar funciones</asp:HyperLink>
+                            <asp:HyperLink ID="HyperLink7" runat="server" NavigateUrl="~/Statistics.aspx">Ver estadisticas</asp:HyperLink>
                         </div>
                     </div>
                     <br />
