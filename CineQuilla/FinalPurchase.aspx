@@ -30,7 +30,7 @@
         <asp:Label ID="Label5" runat="server" Text="CineQuilla card: "></asp:Label>
         <asp:TextBox ID="CineQuillaCard" runat="server" TextMode="Number"></asp:TextBox>
         <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="CineQuillaCard" runat="server" ErrorMessage="Please enter a CineQuilla card number"></asp:RequiredFieldValidator>
-        <asp:CustomValidator ID="CustomValidator2" ControlToValidate="CineQuillaCard" runat="server" ErrorMessage="La tarjeta indicada no existe o no le pertenece a ese cliente." OnServerValidate="CustomValidator2_ServerValidate"></asp:CustomValidator>
+        <asp:CustomValidator ID="CustomValidator2" ControlToValidate="CineQuillaCard" runat="server" ErrorMessage="La tarjeta indicada no existe o no le pertenece a ese cliente. <a href='/SellCards.aspx' target='_blank'>Compre</a>" OnServerValidate="CustomValidator2_ServerValidate"></asp:CustomValidator>
         <asp:Label Visible="false" ForeColor="Red" runat="server" ID="NotEnoughFundsLabel" Text="La tarjeta CineQuilla no tiene suficientes puntos."></asp:Label>
     </div>
     <br />
@@ -41,7 +41,7 @@
         <asp:Label ID="Label7" runat="server" Text="CineQuilla card a recargar: "></asp:Label>
         <asp:TextBox ID="TopUpCard" runat="server" TextMode="Number"></asp:TextBox>
         <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ControlToValidate="TopUpCard" runat="server" ErrorMessage="Please enter a CineQuilla card number"></asp:RequiredFieldValidator>
-        <asp:CustomValidator ID="CustomValidator4" ControlToValidate="TopUpCard" runat="server" ErrorMessage="La tarjeta indicada no existe o no le pertenece a ese cliente." OnServerValidate="CustomValidator2_ServerValidate"></asp:CustomValidator>
+        <asp:CustomValidator ID="CustomValidator4" ControlToValidate="TopUpCard" runat="server" ErrorMessage="La tarjeta indicada no existe o no le pertenece a ese cliente. <a href='/SellCards.aspx' target='_blank'>Compre</a>" OnServerValidate="CustomValidator2_ServerValidate"></asp:CustomValidator>
         <br />
         <asp:Button ID="Button4" runat="server" Text="Cancelar redimir" OnClick="Button4_Click" />
     </div>

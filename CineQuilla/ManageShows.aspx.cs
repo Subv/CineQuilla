@@ -40,7 +40,33 @@ namespace CineQuilla
 
         protected void ShowsTable_OnRowCommand(object sender, GridViewCommandEventArgs e)
         {
+            if (e.CommandName != "DeleteShow")
+                return;
 
+            try
+            {
+                var connString = ConfigurationManager.ConnectionStrings["CineQuilla"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(null, connection))
+                    {
+                        command.CommandText = "DELETE FROM shows WHERE id = @id";
+                        SqlParameter idParam = new SqlParameter("@id", SqlDbType.Int);
+                        idParam.Value = e.CommandArgument;
+                        command.Parameters.Add(idParam);
+                        command.Prepare();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                ErrorLabel.Visible = true;
+                return;
+            }
+
+            Response.Redirect(Request.RawUrl);
         }
 
         protected void ShowDate_SelectionChanged(object sender, EventArgs e)
