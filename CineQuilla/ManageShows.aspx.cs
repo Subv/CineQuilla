@@ -208,6 +208,9 @@ namespace CineQuilla
 
         protected void Button4_Click(object sender, EventArgs e)
         {
+            if (!Page.IsValid)
+                return;
+
             try
             {
                 var connString = ConfigurationManager.ConnectionStrings["CineQuilla"].ConnectionString;
