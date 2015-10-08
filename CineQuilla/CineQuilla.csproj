@@ -73,6 +73,7 @@
     <Content Include="ManageMovies.aspx" />
     <Content Include="ManageShowrooms.aspx" />
     <Content Include="ManageShows.aspx" />
+    <Content Include="ManageTransactions.aspx" />
     <Content Include="ManageUsers.aspx" />
     <Content Include="packages.config" />
     <Content Include="PurchaseChairs.aspx" />
@@ -156,6 +157,13 @@
     </Compile>
     <Compile Include="ManageShows.aspx.designer.cs">
       <DependentUpon>ManageShows.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageTransactions.aspx.cs">
+      <DependentUpon>ManageTransactions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageTransactions.aspx.designer.cs">
+      <DependentUpon>ManageTransactions.aspx</DependentUpon>
     </Compile>
     <Compile Include="ManageUsers.aspx.cs">
       <DependentUpon>ManageUsers.aspx</DependentUpon>
